@@ -1,54 +1,54 @@
-import getMonstersScript from 'cadence/scripts/getMonsters';
-import { Button, NFTView } from 'components/';
-import ROUTES from 'constants/routes';
-import { useWeb3Context } from 'contexts/Web3';
-import useEmblaCarousel from 'embla-carousel-react';
-import { ActionPanel, NavPanel, PageContainer, PageContent } from 'layout';
-import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
-import styles from 'styles/ViewPage.module.css';
-import { GetMonstersResponse } from 'utils/types';
+// import getMonstersScript from 'cadence/scripts/getMonsters';
+// import { Button, NFTView } from 'components/';
+// import ROUTES from 'constants/routes';
+// import { useWeb3Context } from 'contexts/Web3';
+// import useEmblaCarousel from 'embla-carousel-react';
+import { PageContainer } from 'layout';
+// import { useRouter } from 'next/router';
+// import { useEffect, useMemo, useState } from 'react';
+// import styles from 'styles/ViewPage.module.css';
+// import { GetMonstersResponse } from 'utils/types';
 
 const View = () => {
-  const router = useRouter();
-  const { user, executeScript } = useWeb3Context();
-  const [monsters, setMonsters] = useState<GetMonstersResponse>([]);
-  const [emblaRef, emblaApi] = useEmblaCarousel();
+  // const router = useRouter();
+  // const { user, executeScript } = useWeb3Context();
+  // const [monsters, setMonsters] = useState<GetMonstersResponse>([]);
+  // // const [emblaRef, emblaApi] = useEmblaCarousel();
 
-  // Get monsters
-  useEffect(() => {
-    if (!user.addr) return;
+  // // Get monsters
+  // useEffect(() => {
+  //   if (!user.addr) return;
 
-    const getMonsters = async () => {
-      const res: GetMonstersResponse = await executeScript(
-        getMonstersScript,
-        (arg: any, t: any) => [arg(user.addr, t.Address)],
-      );
-      setMonsters(res || []);
-    };
+  //   const getMonsters = async () => {
+  //     const res: GetMonstersResponse = await executeScript(
+  //       getMonstersScript,
+  //       (arg: any, t: any) => [arg(user.addr, t.Address)],
+  //     );
+  //     setMonsters(res || []);
+  //   };
 
-    getMonsters();
-  }, [executeScript, user.addr]);
+  //   getMonsters();
+  // }, [executeScript, user.addr]);
 
   // Reinitialize carousel with response data
-  useEffect(() => {
-    if (emblaApi) {
-      emblaApi.reInit();
-    }
-  }, [emblaApi, monsters]);
+  // useEffect(() => {
+  //   if (emblaApi) {
+  //     emblaApi.reInit();
+  //   }
+  // }, [emblaApi, monsters]);
 
   // Sort monsters by itemID, in descending order (newest first)
-  const descendingOrderMonsters = useMemo(
-    () =>
-      [...monsters].sort(
-        (a, b) => parseInt(b.itemID, 10) - parseInt(a.itemID, 10),
-      ),
-    [monsters],
-  );
+  // const descendingOrderMonsters = useMemo(
+  //   () =>
+  //     [...monsters].sort(
+  //       (a, b) => parseInt(b.itemID, 10) - parseInt(a.itemID, 10),
+  //     ),
+  //   [monsters],
+  // );
 
-  const handleClickCreate = () => {
-    router.push(ROUTES.CREATE);
-  };
+  // const handleClickCreate = () => {
+  //   router.push(ROUTES.CREATE);
+  // };
 
   return (
     <PageContainer pageTitle="View">

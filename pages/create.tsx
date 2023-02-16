@@ -1,81 +1,81 @@
-import * as fcl from '@onflow/fcl';
-import mintMonster from 'cadence/transactions/mintMonster';
-import {
-  Button,
-  HorizontalPicker,
-  MintButton,
-  NFTView,
-  VerticalPicker,
-} from 'components/';
-import {
-  NUM_BACKGROUND_IMAGES,
-  NUM_HEAD_IMAGES,
-  NUM_LEGS_IMAGES,
-  NUM_TORSO_IMAGES,
-} from 'constants/assets';
-import ROUTES from 'constants/routes';
-import usePartSelector from 'hooks/usePartSelector';
-import { ActionPanel, NavPanel, PageContainer, PageContent } from 'layout';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import styles from 'styles/CreatePage.module.css';
-import minterAuthz from 'utils/minterAuthz';
-import { TxnStatus } from 'utils/types';
+// import * as fcl from '@onflow/fcl';
+// import mintMonster from 'cadence/transactions/mintMonster';
+// import {
+//   Button,
+//   HorizontalPicker,
+//   MintButton,
+//   NFTView,
+//   VerticalPicker,
+// } from 'components/';
+// import {
+//   NUM_BACKGROUND_IMAGES,
+//   NUM_HEAD_IMAGES,
+//   NUM_LEGS_IMAGES,
+//   NUM_TORSO_IMAGES,
+// } from 'constants/assets';
+// import ROUTES from 'constants/routes';
+// import usePartSelector from 'hooks/usePartSelector';
+import { PageContainer } from 'layout';
+// import { useRouter } from 'next/router';
+// import { useEffect, useState } from 'react';
+// // import styles from 'styles/CreatePage.module.css';
+// import minterAuthz from 'utils/minterAuthz';
+// import { TxnStatus } from 'utils/types';
 
 const Create = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
-  const backgroundSelector = usePartSelector(NUM_BACKGROUND_IMAGES);
-  const headSelector = usePartSelector(NUM_HEAD_IMAGES);
-  const torsoSelector = usePartSelector(NUM_TORSO_IMAGES);
-  const legsSelector = usePartSelector(NUM_LEGS_IMAGES);
-  const monsterPrice = '0.0';
+  // const backgroundSelector = usePartSelector(NUM_BACKGROUND_IMAGES);
+  // const headSelector = usePartSelector(NUM_HEAD_IMAGES);
+  // const torsoSelector = usePartSelector(NUM_TORSO_IMAGES);
+  // const legsSelector = usePartSelector(NUM_LEGS_IMAGES);
+  // const monsterPrice = '0.0';
 
-  const [isMintInProgress, setIsMintInProgress] = useState<boolean>(false);
-  const [txId, setTxId] = useState('');
-  const [txStatus, setTxStatus] = useState<TxnStatus>();
+  // // const [isMintInProgress, setIsMintInProgress] = useState<boolean>(false);
+  // const [txId, setTxId] = useState('');
+  // const [txStatus, setTxStatus] = useState<TxnStatus>();
 
-  const handleClickMint = async () => {
-    setIsMintInProgress(true);
+  // // const handleClickMint = async () => {
+  // //   setIsMintInProgress(true);
 
-    try {
-      const txId = await fcl.mutate({
-        cadence: mintMonster,
-        args: (arg: any, t: any) => [
-          arg(backgroundSelector.index, t.Int),
-          arg(headSelector.index, t.Int),
-          arg(torsoSelector.index, t.Int),
-          arg(legsSelector.index, t.Int),
-          arg(monsterPrice, t.UFix64),
-        ],
-        authorizations: [minterAuthz, fcl.currentUser],
-      });
+  // //   try {
+  // //     const txId = await fcl.mutate({
+  // //       cadence: mintMonster,
+  // //       args: (arg: any, t: any) => [
+  // //         arg(backgroundSelector.index, t.Int),
+  // //         arg(headSelector.index, t.Int),
+  // //         arg(torsoSelector.index, t.Int),
+  // //         arg(legsSelector.index, t.Int),
+  // //         arg(monsterPrice, t.UFix64),
+  // //       ],
+  // //       authorizations: [minterAuthz, fcl.currentUser],
+  // //     });
 
-      setTxId(txId);
-    } catch (error) {
-      console.error(error);
+  // //     setTxId(txId);
+  // //   } catch (error) {
+  // //     console.error(error);
 
-      setIsMintInProgress(false);
-    }
-  };
+  // //     setIsMintInProgress(false);
+  // //   }
+  // // };
 
-  // Subscribe to tx returned from /api/signAsMinter
-  useEffect(() => {
-    if (txId) {
-      fcl.tx(txId).subscribe(setTxStatus);
-    }
-  }, [txId]);
+  // // Subscribe to tx returned from /api/signAsMinter
+  // useEffect(() => {
+  //   if (txId) {
+  //     fcl.tx(txId).subscribe(setTxStatus);
+  //   }
+  // }, [txId]);
 
-  // Navigate to View page when tx is sealed
-  useEffect(() => {
-    if (txStatus?.statusString === 'SEALED') {
-      router.push(ROUTES.VIEW);
-    }
-  }, [txStatus, router]);
+  // // Navigate to View page when tx is sealed
+  // useEffect(() => {
+  //   if (txStatus?.statusString === 'SEALED') {
+  //     router.push(ROUTES.VIEW);
+  //   }
+  // }, [txStatus, router]);
 
-  const handleClickView = () => {
-    router.push(ROUTES.VIEW);
-  };
+  // // const handleClickView = () => {
+  // //   router.push(ROUTES.VIEW);
+  // // };
 
   return (
     <PageContainer pageTitle="Create">
