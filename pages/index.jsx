@@ -25,21 +25,27 @@ const Home = () => {
     e.preventDefault();
     const email = new FormData(e.target).get('email');
     /* One-liner login with email OTP 🤯 */
-    try {
-      await magic.auth
-        .loginWithEmailOTP({ email })
-        .then(() => {
+
+    await magic.auth.loginWithEmailOTP({ email }, customNodeOptions);
+
+    const checkIsInitialized = async () => {
+      try {
+        const isUserInitialized = await executeScript(
+          isInitializedScript,
+          (arg, t) => [arg(user.addr, t.Address)],
+        );
+
+        if (isUserInitialized) {
           router.push(ROUTES.CREATE);
-        })
-        .catch(() => {
+        } else {
           router.push(ROUTES.CREATE);
-        })
-        .finally(() => {
-          router.push(ROUTES.CREATE);
-        });
-    } catch {
-      router.push(ROUTES.CREATE);
-    }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    checkIsInitialized();
   };
   /* 2. Initialize Magic Instance */
 
