@@ -7,6 +7,7 @@ import { Magic } from 'magic-sdk';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import styles from 'styles/HomePage.module.css';
 
 const customNodeOptions = {
@@ -16,6 +17,7 @@ const customNodeOptions = {
 const Home = () => {
   const router = useRouter();
   const { connect, user, executeScript } = useWeb3Context();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     const magic = new Magic('pk_live_9386A282035A3B13', {
@@ -26,7 +28,7 @@ const Home = () => {
     const email = new FormData(e.target).get('email');
     /* One-liner login with email OTP 🤯 */
     await magic.auth.loginWithEmailOTP({ email });
-    router.push('/create');
+    navigate('/create');
   };
   /* 2. Initialize Magic Instance */
 
