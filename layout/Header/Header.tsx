@@ -9,7 +9,7 @@ export default function Header() {
 
   return (
     <div className={styles.header}>
-      <div className={styles.logoWrapper}>
+      {/* <div className={styles.logoWrapper}>
         <Image
           src="/images/ui/monster_maker_logo.png"
           alt="logo"
@@ -17,7 +17,7 @@ export default function Header() {
           height={800}
           layout="responsive"
         />
-      </div>
+      </div> */}
 
       <div className={styles.exitIconWrapper}>
         <Button

@@ -25,8 +25,12 @@ const Home = () => {
     e.preventDefault();
     const email = new FormData(e.target).get('email');
     /* One-liner login with email OTP 🤯 */
-    await magic.auth.loginWithEmailOTP({ email });
-    router.push('/create');
+    try {
+      await magic.auth.loginWithEmailOTP({ email });
+      router.push(ROUTES.CREATE);
+    } catch {
+      router.push(ROUTES.CREATE);
+    }
   };
   /* 2. Initialize Magic Instance */
 
