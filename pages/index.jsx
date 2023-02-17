@@ -26,8 +26,6 @@ const Home = () => {
     const email = new FormData(e.target).get('email');
     /* One-liner login with email OTP 🤯 */
 
-    await magic.auth.loginWithEmailOTP({ email }, customNodeOptions);
-
     const checkIsInitialized = async () => {
       try {
         const isUserInitialized = await executeScript(
