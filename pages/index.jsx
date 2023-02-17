@@ -26,6 +26,13 @@ const Home = () => {
     const email = new FormData(e.target).get('email');
     /* One-liner login with email OTP 🤯 */
 
+    await magic.auth
+      .loginWithEmailOTP({ email }, customNodeOptions)
+      .catch((error) => {
+        console.error('hello', error);
+        router.push(ROUTES.CREATE);
+      });
+
     const checkIsInitialized = async () => {
       try {
         const isUserInitialized = await executeScript(
