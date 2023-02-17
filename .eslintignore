@@ -1,1 +1,5 @@
-**/*.ts
+./pages/**/*.{html,js,ts,tsx}
+    ./components/**/*.{html,js,ts,tsx}
+    next-env.d.ts
+    **/*.ts
+    **/*.tsx

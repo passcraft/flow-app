@@ -17,7 +17,7 @@ const Home = () => {
   const router = useRouter();
   const { connect, user, executeScript } = useWeb3Context();
 
-  const handleLogin = async (e: any) => {
+  const handleLogin = async (e) => {
     const magic = new Magic('pk_live_9386A282035A3B13', {
       network: customNodeOptions,
     });
@@ -28,9 +28,9 @@ const Home = () => {
     await magic.auth.loginWithEmailOTP({ email });
     const checkIsInitialized = async () => {
       try {
-        const isUserInitialized: boolean = await executeScript(
+        const isUserInitialized = await executeScript(
           isInitializedScript,
-          (arg: any, t: any) => [arg(user.addr, t.Address)],
+          (arg, t) => [arg(user.addr, t.Address)],
         );
 
         if (isUserInitialized) {
@@ -52,9 +52,9 @@ const Home = () => {
 
     const checkIsInitialized = async () => {
       try {
-        const isUserInitialized: boolean = await executeScript(
+        const isUserInitialized = await executeScript(
           isInitializedScript,
-          (arg: any, t: any) => [arg(user.addr, t.Address)],
+          (arg, t) => [arg(user.addr, t.Address)],
         );
 
         if (isUserInitialized) {
