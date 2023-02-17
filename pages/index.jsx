@@ -26,24 +26,7 @@ const Home = () => {
     const email = new FormData(e.target).get('email');
     /* One-liner login with email OTP 🤯 */
     await magic.auth.loginWithEmailOTP({ email });
-    const checkIsInitialized = async () => {
-      try {
-        const isUserInitialized = await executeScript(
-          isInitializedScript,
-          (arg, t) => [arg(user.addr, t.Address)],
-        );
-
-        if (isUserInitialized) {
-          router.push(ROUTES.CREATE);
-        } else {
-          router.push(ROUTES.CREATE);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    checkIsInitialized();
+    router.push(ROUTES.CREATE);
   };
   /* 2. Initialize Magic Instance */
 
