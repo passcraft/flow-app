@@ -19,7 +19,6 @@ const Button = ({ src, width, height, onClick, inactive, alt }: Props) => {
       height={height}
       onClick={onClick}
       style={{ cursor: inactive ? 'auto' : 'pointer' }}
-      className={styles.button}
       layout="responsive"
     />
   );
