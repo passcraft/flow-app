@@ -37,7 +37,7 @@ const Home = () => {
 
   return (
     <PageContainer withHeader={false}>
-      <PageContent>
+      {/* <PageContent>
         <Image
           src="/images/ui/monster_maker_logo.png"
           alt="logo"
@@ -45,7 +45,7 @@ const Home = () => {
           height={800}
           className={styles.logo}
         />
-      </PageContent>
+      </PageContent> */}
 
       <ActionPanel />
 

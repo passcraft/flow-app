@@ -10,7 +10,7 @@ interface Props {
 }
 
 const PageContainer = ({ pageTitle, withHeader = true, children }: Props) => {
-  const title = pageTitle ? `Monster Maker - ${pageTitle}` : 'Monster Maker';
+  const title = 'Belong';
 
   return (
     <>

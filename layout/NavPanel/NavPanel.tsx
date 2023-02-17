@@ -8,10 +8,7 @@ interface Props {
 
 const NavPanel = ({ children }: Props) => {
   return (
-    <nav
-      style={{ backgroundImage: `url(${tileBackground.src})` }}
-      className={styles.navPanel}
-    >
+    <nav className={styles.navPanel}>
       <div className={styles.navButtonWrapper}>{children}</div>
     </nav>
   );
