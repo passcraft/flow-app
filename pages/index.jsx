@@ -16,43 +16,18 @@ const customNodeOptions = {
 const Home = () => {
   const router = useRouter();
   const { connect, user, executeScript } = useWeb3Context();
-  const magic = new Magic('pk_live_5C2FC054DE037A4B', {
-    network: customNodeOptions,
-  });
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const email = new FormData(e.target).get('email');
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const { elements } = event.target;
+
+    // the Magic code
+    await new Magic('pk_live_5C2FC054DE037A4B').auth.loginWithEmailOTP({
+      email: elements.email.value,
+    });
     /* One-liner login with email OTP 🤯 */
 
-    await magic.auth
-      .loginWithEmailOTP({ email }, customNodeOptions)
-      .then((succ) => {
-        console.log('succ', succ);
-        router.push(ROUTES.CREATE);
-      })
-      .catch((error) => {
-        console.error('hello', error);
-        router.push(ROUTES.CREATE);
-      });
-
-    const checkIsInitialized = async () => {
-      try {
-        const isUserInitialized = await executeScript(
-          isInitializedScript,
-          (arg, t) => [arg(user.addr, t.Address)],
-        );
-
-        if (isUserInitialized) {
-          router.push(ROUTES.CREATE);
-        } else {
-          router.push(ROUTES.CREATE);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    checkIsInitialized();
+    router.push(ROUTES.CREATE);
   };
   /* 2. Initialize Magic Instance */
 
