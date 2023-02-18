@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --gradient-colors: #061b20, #1c6470, #d3e549;
 }
@@ -7,7 +11,6 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(180deg, var(--gradient-colors));
 }
 
 img {

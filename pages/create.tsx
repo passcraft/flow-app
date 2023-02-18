@@ -15,7 +15,8 @@
 // } from 'constants/assets';
 // import ROUTES from 'constants/routes';
 // import usePartSelector from 'hooks/usePartSelector';
-import { PageContainer } from 'layout';
+import { useWeb3Context } from '../contexts/Web3';
+
 // import { useRouter } from 'next/router';
 // import { useEffect, useState } from 'react';
 // // import styles from 'styles/CreatePage.module.css';
@@ -23,6 +24,8 @@ import { PageContainer } from 'layout';
 // import { TxnStatus } from 'utils/types';
 
 const Create = () => {
+  const { logout } = useWeb3Context();
+
   // const router = useRouter();
 
   // const backgroundSelector = usePartSelector(NUM_BACKGROUND_IMAGES);
@@ -78,7 +81,7 @@ const Create = () => {
   // // };
 
   return (
-    <PageContainer pageTitle="Create">
+    <div className="flex justify-center align-center h-screen w-screen">
       {/* <PageContent>
         <div className={styles.relativeContainer}>
           <NFTView
@@ -145,7 +148,10 @@ const Create = () => {
           alt="View NFTs"
         />
       </NavPanel> */}
-    </PageContainer>
+      <button type="button" className="" onClick={logout}>
+        log out
+      </button>
+    </div>
   );
 };
 
