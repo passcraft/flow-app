@@ -22,11 +22,12 @@ const Home = () => {
     const { elements } = event.target;
 
     // the Magic code
-    await new Magic('pk_live_5C2FC054DE037A4B').auth.loginWithEmailOTP({
-      email: elements.email.value,
-    });
+    const did = await new Magic(
+      'pk_live_5C2FC054DE037A4B',
+    ).auth.loginWithEmailOTP({ email: elements.email.value });
     /* One-liner login with email OTP 🤯 */
-
+    // await did();
+    console.log('did', did);
     router.push(ROUTES.CREATE);
   };
   /* 2. Initialize Magic Instance */
