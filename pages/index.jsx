@@ -28,6 +28,10 @@ const Home = () => {
 
     await magic.auth
       .loginWithEmailOTP({ email }, customNodeOptions)
+      .then((succ) => {
+        console.log('succ', succ);
+        router.push(ROUTES.CREATE);
+      })
       .catch((error) => {
         console.error('hello', error);
         router.push(ROUTES.CREATE);
