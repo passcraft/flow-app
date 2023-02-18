@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import getRandomInt from 'utils/getRandomInt';
+import getRandomInt from '../utils/getRandomInt';
 
 export interface PartSelectorReturnProps {
   index: number;

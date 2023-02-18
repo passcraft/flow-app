@@ -1,18 +1,18 @@
-import initAccountTxn from 'cadence/transactions/initAccount';
-import { Button, NFTView } from 'components';
-import ROUTES from 'constants/routes';
-import { useWeb3Context } from 'contexts/Web3';
-import { ActionPanel, NavPanel, PageContainer, PageContent } from 'layout';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styles from 'styles/InitializePage.module.css';
-import getRandomInt from 'utils/getRandomInt';
+import initAccountTxn from '../cadence/transactions/initAccount';
+import { Button, NFTView } from '../components';
 import {
   NUM_BACKGROUND_IMAGES,
   NUM_HEAD_IMAGES,
   NUM_LEGS_IMAGES,
   NUM_TORSO_IMAGES,
-} from 'constants/assets';
+} from '../constants/assets';
+import ROUTES from '../constants/routes';
+import { useWeb3Context } from '../contexts/Web3';
+import { ActionPanel, NavPanel, PageContainer, PageContent } from '../layout';
+import getRandomInt from '../utils/getRandomInt';
 
 const Initialize = () => {
   const router = useRouter();

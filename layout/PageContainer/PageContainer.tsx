@@ -1,6 +1,6 @@
-import { Header } from 'layout/';
 import Head from 'next/head';
 import { ReactNode } from 'react';
+import { Header } from '../../layout';
 import styles from './PageContainer.module.css';
 
 interface Props {

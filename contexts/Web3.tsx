@@ -1,6 +1,5 @@
 import * as fcl from '@onflow/fcl';
-import { NETWORK } from 'constants/networks';
-import ROUTES from 'constants/routes';
+import { init } from '@onflow/fcl-wc';
 import router from 'next/router';
 import {
   createContext,
@@ -11,7 +10,8 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { init } from "@onflow/fcl-wc"
+import { NETWORK } from '../constants/networks';
+import ROUTES from '../constants/routes';
 
 interface IWeb3Context {
   connect: () => void;
@@ -61,22 +61,21 @@ export const Web3ContextProvider = ({
         name: appTitle,
         description: appTitle,
         url: window.location.origin,
-        icons: [iconUrl]
-      }
+        icons: [iconUrl],
+      };
 
       const { FclWcServicePlugin, client } = await init({
         projectId: '12ed93a2aae83134c4c8473ca97d9399', // required
         metadata: DEFAULT_APP_METADATA, // optional
         includeBaseWC: true, // optional, default: false
-      })
+      });
 
-      setClient(client)
-      fcl.pluginRegistry.add(FclWcServicePlugin)
-
+      setClient(client);
+      fcl.pluginRegistry.add(FclWcServicePlugin);
     } catch (e) {
-      throw e
+      throw e;
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     const {
@@ -106,7 +105,7 @@ export const Web3ContextProvider = ({
     });
 
     if (!client) {
-      wcSetup(appTitle, iconUrl)
+      wcSetup(appTitle, iconUrl);
     }
   }, []);
 

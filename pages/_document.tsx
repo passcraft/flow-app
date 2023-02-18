@@ -1,5 +1,5 @@
-import { ALL_MONSTER_PART_ASSETS, ALL_UI_ASSETS } from 'constants/assets';
 import { Head, Html, Main, NextScript } from 'next/document';
+import { ALL_MONSTER_PART_ASSETS, ALL_UI_ASSETS } from '../constants/assets';
 
 const Document = () => {
   return (

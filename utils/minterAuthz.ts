@@ -1,5 +1,5 @@
 import * as fcl from '@onflow/fcl';
-import ROUTES from 'constants/routes';
+import ROUTES from '../constants/routes';
 
 const fetchMinterSignature = async (message: string): Promise<string> => {
   const response = await fetch(ROUTES.API_SIGN_AS_MINTER, {

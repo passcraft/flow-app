@@ -1,4 +1,4 @@
-import { ArrowButton } from 'components/';
+// import { ArrowButton } from 'components/';
 import React from 'react';
 import styles from './VerticalPicker.module.css';
 
@@ -11,7 +11,7 @@ interface Props {
 const VerticalPicker = ({ partName, increment, decrement }: Props) => {
   return (
     <>
-      <ArrowButton
+      {/* <ArrowButton
         direction="up"
         onClick={decrement}
         alt={`Change ${partName}`}
@@ -23,7 +23,7 @@ const VerticalPicker = ({ partName, increment, decrement }: Props) => {
         onClick={increment}
         alt={`Change ${partName}`}
         className={styles.incrementArrow}
-      />
+      /> */}
     </>
   );
 };
