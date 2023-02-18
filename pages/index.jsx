@@ -5,10 +5,9 @@ import { useWeb3Context } from 'contexts/Web3';
 import { ActionPanel, NavPanel, PageContainer, PageContent } from 'layout';
 import { Magic } from 'magic-sdk';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styles from 'styles/HomePage.module.css';
-
 const customNodeOptions = {
   rpcUrl: 'https://rpc-mumbai.maticvigil.com/"', // Polygon RPC URL
   chainId: 80001, // Polygon chain id
@@ -25,18 +24,18 @@ const Home = () => {
     const did = await new Magic('pk_live_5C2FC054DE037A4B').auth
       .loginWithEmailOTP({ email: elements.email.value })
       .then(() => {
-        router.push('/create');
+        Router.push('/create');
       })
       .catch(() => {
-        router.push('/create');
+        Router.push('/create');
       })
       .finally(() => {
-        router.push('/create');
+        Router.push('/create');
       });
     /* One-liner login with email OTP 🤯 */
     // await did();
     console.log('did', did);
-    router.push('/create');
+    Router.push('/create');
   };
   /* 2. Initialize Magic Instance */
 
