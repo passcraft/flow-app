@@ -1,11 +1,9 @@
-import Button from 'components/Button';
-import { useWeb3Context } from 'contexts/Web3';
 import Image from 'next/image';
 import React from 'react';
 import styles from './Header.module.css';
 
 export default function Header() {
-  const { logout } = useWeb3Context();
+  // const { logout } = useWeb3Context();
 
   return (
     <div className={styles.header}>
@@ -19,7 +17,7 @@ export default function Header() {
         />
       </div> */}
 
-      <div className={styles.exitIconWrapper}>
+      {/* <div className={styles.exitIconWrapper}>
         <Button
           src="/images/ui/monster_maker_exit_icon.png"
           alt="Log out"
@@ -27,7 +25,7 @@ export default function Header() {
           height={800}
           onClick={logout}
         />
-      </div>
+      </div> */}
     </div>
   );
 }
