@@ -1,163 +1,141 @@
-import isInitializedScript from 'cadence/scripts/isInitialized';
-import { Button } from 'components/';
-import ROUTES from 'constants/routes';
-import { useWeb3Context } from 'contexts/Web3';
-import { ActionPanel, NavPanel, PageContainer, PageContent } from 'layout';
+import { FlowExtension } from '@magic-ext/flow';
+import * as fcl from '@onflow/fcl';
 import { Magic } from 'magic-sdk';
-import Image from 'next/image';
-import Router, { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import styles from 'styles/HomePage.module.css';
-const customNodeOptions = {
-  rpcUrl: 'https://rpc-mumbai.maticvigil.com/"', // Polygon RPC URL
-  chainId: 80001, // Polygon chain id
-};
-const Home = () => {
-  const router = useRouter();
-  const { connect, user, executeScript } = useWeb3Context();
+import React, { useEffect, useState } from 'react';
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    const { elements } = event.target;
+// CONFIGURE ACCESS NODE
 
-    // the Magic code
-    const did = await new Magic('pk_live_5C2FC054DE037A4B').auth
-      .loginWithEmailOTP({ email: elements.email.value })
-      .then(() => {
-        Router.push('/create');
-      })
-      .catch(() => {
-        Router.push('/create');
-      })
-      .finally(() => {
-        Router.push('/create');
-      });
-    /* One-liner login with email OTP 🤯 */
-    // await did();
-    console.log('did', did);
-    Router.push('/create');
-  };
-  /* 2. Initialize Magic Instance */
+let magic, AUTHORIZATION_FUNCTION;
+fcl.config().put('accessNode.api', 'https://rest-testnet.onflow.org');
+
+// CONFIGURE AUTHORIZATION FUNCTION
+// replace with your authorization function.
+// const AUTHORIZATION_FUNCTION = fcl.currentUser().authorization;
+
+export default function App() {
+  const [email, setEmail] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [publicAddress, setPublicAddress] = useState('');
+  const [verifying, setVerifying] = useState(false);
+  const [userMetadata, setUserMetadata] = useState({});
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (!user.loggedIn) return;
+    magic = new Magic('pk_live_5C2FC054DE037A4B', {
+      extensions: [
+        new FlowExtension({
+          rpcUrl: 'https://rest-testnet.onflow.org',
+          network: 'testnet',
+        }),
+      ],
+    });
+    AUTHORIZATION_FUNCTION = magic.flow.authorization;
 
-    const checkIsInitialized = async () => {
-      try {
-        const isUserInitialized = await executeScript(
-          isInitializedScript,
-          (arg, t) => [arg(user.addr, t.Address)],
-        );
-
-        if (isUserInitialized) {
-          router.push(ROUTES.CREATE);
-        } else {
-          router.push(ROUTES.CREATE);
-        }
-      } catch (error) {
-        console.error(error);
+    magic.user.isLoggedIn().then(async (magicIsLoggedIn) => {
+      setIsLoggedIn(magicIsLoggedIn);
+      if (magicIsLoggedIn) {
+        const { publicAddress } = await magic.user.getMetadata();
+        setPublicAddress(publicAddress);
+        setUserMetadata(await magic.user.getMetadata());
       }
-    };
+    });
+  }, [isLoggedIn]);
 
-    checkIsInitialized();
-  }, [user, executeScript, router]);
+  const login = async () => {
+    await magic.auth.loginWithMagicLink({ email });
+    setIsLoggedIn(true);
+  };
+
+  const logout = async () => {
+    await magic.user.logout();
+    setIsLoggedIn(false);
+  };
+
+  const verify = async () => {
+    try {
+      console.log('SENDING TRANSACTION');
+      setVerifying(true);
+      var response = await fcl.send([
+        fcl.transaction`
+      transaction {
+        var acct: AuthAccount
+
+        prepare(acct: AuthAccount) {
+          self.acct = acct
+        }
+
+        execute {
+          log(self.acct.address)
+        }
+      }
+    `,
+        fcl.proposer(AUTHORIZATION_FUNCTION),
+        fcl.authorizations([AUTHORIZATION_FUNCTION]),
+        fcl.payer(AUTHORIZATION_FUNCTION),
+        fcl.limit(9999),
+      ]);
+      console.log('TRANSACTION SENT');
+      console.log('TRANSACTION RESPONSE', response);
+
+      console.log('WAITING FOR TRANSACTION TO BE SEALED');
+      var data = await fcl.tx(response).onceSealed();
+      console.log('TRANSACTION SEALED', data);
+      setVerifying(false);
+
+      if (data.status === 4 && data.statusCode === 0) {
+        setMessage('Congrats!!! I Think It Works');
+      } else {
+        setMessage(`Oh No: ${data.errorMessage}`);
+      }
+    } catch (error) {
+      console.error('FAILED TRANSACTION', error);
+    }
+  };
 
   return (
-    <PageContainer withHeader={false}>
-      {/* <PageContent>
-        <Image
-          src="/images/ui/monster_maker_logo.png"
-          alt="logo"
-          width={2176}
-          height={800}
-          className={styles.logo}
-        />
-      </PageContent> */}
-
-      {/* <ActionPanel /> */}
-      <div>
-        {/* <div>
+    <div className="App">
+      {!isLoggedIn ? (
+        <div className="container">
           <h1>Please sign up or login</h1>
-          <form
-            onSubmit={(e) => handleLogin(e)}
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              gap: '10px',
+          <input
+            type="email"
+            name="email"
+            required="required"
+            placeholder="Enter your email"
+            onChange={(event) => {
+              setEmail(event.target.value);
             }}
-          >
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              className={styles.inp}
-            />
-            <button type="submit" className={styles.btn}>
-              Send
-            </button>
-          </form>
+          />
+          <button onClick={login}>Send</button>
         </div>
-        <NavPanel>
-          <button onClick={connect} className={styles.btn}>
-            Connect
-          </button> */}
-        {/* </NavPanel> */}
-        <section class="h-screen">
-          <div class="px-6 h-full text-gray-800">
-            <div class="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6">
-              <div class="grow-0 shrink-1 md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-9/12 mb-12 md:mb-0">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                  class="w-full"
-                  alt="Sample image"
-                />
-              </div>
-              <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
-                <div class="flex flex-row items-center justify-center lg:justify-start">
-                  <p class="text-lg mb-0 mr-4">Sign in with</p>
-                  <button
-                    type="button"
-                    data-mdb-ripple="true"
-                    data-mdb-ripple-color="light"
-                    onClick={connect}
-                    class="inline-block p-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mx-1"
-                  >
-                    Flow
-                  </button>
-                </div>
-
-                <div class="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
-                  <p class="text-center font-semibold mx-4 mb-0">Or</p>
-                </div>
-
-                <form onSubmit={(e) => handleLogin(e)}>
-                  <div class="mb-6">
-                    <input
-                      type="text"
-                      name="email"
-                      class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                      id="exampleFormControlInput2"
-                      placeholder="Email address"
-                    />
-                  </div>
-
-                  <div class="text-center lg:text-left">
-                    <button
-                      type="submit"
-                      class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                    >
-                      Login with magic
-                    </button>
-                  </div>
-                </form>
-              </div>
+      ) : (
+        <div>
+          <div>
+            <div className="container">
+              <h1>Current user: {userMetadata.email}</h1>
+              <button onClick={logout}>Logout</button>
             </div>
           </div>
-        </section>
-      </div>
-    </PageContainer>
+          <div className="container">
+            <h1>Flow address</h1>
+            <div className="info">{publicAddress}</div>
+          </div>
+          <div className="container">
+            <h1>Verify Transaction</h1>
+            {verifying ? (
+              <div className="sending-status">Verifying Transaction</div>
+            ) : (
+              ''
+            )}
+            <div className="info">
+              <div>{message}</div>
+            </div>
+            <button id="btn-deploy" onClick={verify}>
+              Verify
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
-};
-
-export default Home;
+}

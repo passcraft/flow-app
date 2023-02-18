@@ -1,4 +1,4 @@
-import type { AppProps } from 'next/app';
+import { AppProps } from 'next/dist/shared/lib/router/router';
 import 'styles/globals.css';
 import { Web3ContextProvider } from '../contexts/Web3';
 
