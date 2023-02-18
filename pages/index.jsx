@@ -28,7 +28,7 @@ const Home = () => {
     /* One-liner login with email OTP 🤯 */
     // await did();
     console.log('did', did);
-    router.push(ROUTES.CREATE);
+    router.push('/create');
   };
   /* 2. Initialize Magic Instance */
 
