@@ -148,6 +148,13 @@ const Create = () => {
           alt="View NFTs"
         />
       </NavPanel> */}
+      <div className="h-3 relative max-w-xl rounded-full overflow-hidden">
+        <div className="w-full h-full bg-gray-200 absolute"></div>
+        <div
+          id="bar"
+          className="transition-all ease-out duration-1000 h-full bg-green-500 relative w-0"
+        ></div>
+      </div>
       <button type="button" className="" onClick={logout}>
         log out
       </button>

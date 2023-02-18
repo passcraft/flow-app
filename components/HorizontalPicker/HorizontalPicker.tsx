@@ -1,4 +1,3 @@
-import { ArrowButton } from 'components/';
 import React from 'react';
 import styles from './HorizontalPicker.module.css';
 
@@ -17,7 +16,7 @@ const HorizontalPicker = ({
 }: Props) => {
   return (
     <>
-      <ArrowButton
+      {/* <ArrowButton
         direction="left"
         onClick={decrement}
         alt={`Change ${partName}`}
@@ -31,7 +30,7 @@ const HorizontalPicker = ({
         alt={`Change ${partName}`}
         style={{ top: topOffset }}
         className={styles.incrementArrow}
-      />
+      /> */}
     </>
   );
 };
