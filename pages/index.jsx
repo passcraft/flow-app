@@ -16,12 +16,10 @@ const customNodeOptions = {
 const Home = () => {
   const router = useRouter();
   const { connect, user, executeScript } = useWeb3Context();
-
+  const magic = new Magic('pk_live_5C2FC054DE037A4B', {
+    network: customNodeOptions,
+  });
   const handleLogin = async (e) => {
-    const magic = new Magic('pk_live_5C2FC054DE037A4B', {
-      network: customNodeOptions,
-    });
-
     e.preventDefault();
     const email = new FormData(e.target).get('email');
     /* One-liner login with email OTP 🤯 */
