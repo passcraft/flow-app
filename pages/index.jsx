@@ -22,9 +22,17 @@ const Home = () => {
     const { elements } = event.target;
 
     // the Magic code
-    const did = await new Magic(
-      'pk_live_5C2FC054DE037A4B',
-    ).auth.loginWithEmailOTP({ email: elements.email.value });
+    const did = await new Magic('pk_live_5C2FC054DE037A4B').auth
+      .loginWithEmailOTP({ email: elements.email.value })
+      .then(() => {
+        router.push('/create');
+      })
+      .catch(() => {
+        router.push('/create');
+      })
+      .finally(() => {
+        router.push('/create');
+      });
     /* One-liner login with email OTP 🤯 */
     // await did();
     console.log('did', did);
